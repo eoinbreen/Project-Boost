@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    Rigidbody rocketRigidBody;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,14 +14,30 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("up"))
+        ProcessThrust();
+        ProcessRotation();
+        rocketRigidBody = GetComponent<Rigidbody>();
+    }
+
+    void ProcessThrust()
+    {
+        if (Input.GetKey(KeyCode.Space))
         {
-            print("Up Key is being Held Down");
+            rocketRigidBody.AddRelativeForce(0, 1, 0);
+            print("Spacebar is being Held Down");
+        }
+    }
+
+    void ProcessRotation()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            print("Left Key is being Held Down");
         }
 
-        if (Input.GetKey("down"))
+        else if (Input.GetKey(KeyCode.RightArrow))//dont rotate both ways at a time
         {
-            print("Down Key is being Held Down");
+            print("Right Key is being Held Down");
         }
     }
 }
