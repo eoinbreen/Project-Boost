@@ -5,6 +5,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rocketRigidBody;
+    [SerializeField] float mainThrust = 1f;
+    [SerializeField] float rotationThrust = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +25,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rocketRigidBody.AddRelativeForce(0, 1, 0);
-            print("Spacebar is being Held Down");
+            rocketRigidBody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
         }
     }
 
@@ -32,12 +33,12 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            print("Left Key is being Held Down");
+            transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
         }
 
         else if (Input.GetKey(KeyCode.RightArrow))//dont rotate both ways at a time
         {
-            print("Right Key is being Held Down");
+            transform.Rotate(Vector3.back * rotationThrust * Time.deltaTime);
         }
     }
 }
