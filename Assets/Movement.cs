@@ -5,12 +5,12 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rocketRigidBody;
-    [SerializeField] float mainThrust = 1f;
-    [SerializeField] float rotationThrust = 1f;
+    [SerializeField] float rocketThrust = 1f;
+    [SerializeField] float rotationSpeed = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rocketRigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -18,27 +18,36 @@ public class Movement : MonoBehaviour
     {
         ProcessThrust();
         ProcessRotation();
-        rocketRigidBody = GetComponent<Rigidbody>();
     }
 
+    //processes input to add thrust to the Rocket
     void ProcessThrust()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rocketRigidBody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+            rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);
         }
     }
 
+    //Processes input to rotate the rocket
     void ProcessRotation()
-    {
+    { 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
+            ApplyRotation(rotationSpeed);
         }
 
         else if (Input.GetKey(KeyCode.RightArrow))//dont rotate both ways at a time
         {
-            transform.Rotate(Vector3.back * rotationThrust * Time.deltaTime);
+            ApplyRotation(-rotationSpeed);
         }
+    }
+    
+    //applies rotation to the rocket
+    void ApplyRotation(float rotationThisFrame)
+    {
+        rocketRigidBody.freezeRotation = true; //Freeze rotation so we can manually rotate
+        transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);
+        rocketRigidBody.freezeRotation = false; //Unfreeze rotation
     }
 }
