@@ -6,8 +6,8 @@ public class Movement : MonoBehaviour
 {
     Rigidbody rocketRigidBody;
     AudioSource rocketAudio;
-    [SerializeField] float rocketThrust = 1f;
-    [SerializeField] float rotationSpeed = 1f;
+    [SerializeField] float rocketThrust = 750f;
+    [SerializeField] float rotationSpeed = 200f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +28,14 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);
-            rocketAudio.mute = false;
+            if (!rocketAudio.isPlaying)//Check if audio is already playing so it does not loop on top of one another
+            {
+                rocketAudio.Play();
+            }
         }
         else
         {
-            rocketAudio.mute = true;
+            rocketAudio.Pause();
         }
     }
 
