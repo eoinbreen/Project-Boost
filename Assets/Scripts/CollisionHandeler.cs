@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionHandeler : MonoBehaviour
 {
@@ -18,8 +19,13 @@ public class CollisionHandeler : MonoBehaviour
                 print("You Picked Up Fuel");
                 break;
             default:
-                print("You Blew Up!!");
+                ReloadLevel();
                 break;
         }
+    }
+    //reloads current Level
+    void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
