@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandeler : MonoBehaviour
 {
+    int currentLevel; 
     void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)
@@ -13,10 +14,7 @@ public class CollisionHandeler : MonoBehaviour
                 print("On Starting Position");
                 break;
             case "Finish":
-                print("Level Complete");
-                break;
-            case "Fuel":
-                print("You Picked Up Fuel");
+                LoadNextLevel();
                 break;
             default:
                 ReloadLevel();
@@ -26,6 +24,22 @@ public class CollisionHandeler : MonoBehaviour
     //reloads current Level
     void ReloadLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentLevel);
+    }
+
+    void LoadNextLevel()
+    {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        if (currentLevel != SceneManager.sceneCount)//Check if current level is the final level
+        {
+            print("Loading Next Level");
+            SceneManager.LoadScene(currentLevel + 1);//Load next level
+        }   
+        else
+        {
+            print("You Won!! Restarting Game");
+            SceneManager.LoadScene(0);//Load First Level
+        }
     }
 }
