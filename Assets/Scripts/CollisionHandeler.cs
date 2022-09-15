@@ -6,9 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandeler : MonoBehaviour
 {
-    int currentLevel; 
+    [SerializeField] AudioClip explosionSound;
+    [SerializeField] AudioClip successSound;
+
+    AudioSource rocketAudio;
+    int currentLevel;
+
+     void Start()
+    {
+        rocketAudio = GetComponent<AudioSource>();
+    }
     void OnCollisionEnter(Collision collision)
     {
+        
         switch (collision.gameObject.tag)
         {
             case "Start":
@@ -16,7 +26,6 @@ public class CollisionHandeler : MonoBehaviour
                 break;
             case "Finish":
                 LevelComplete();
-                LoadNextLevel();
                 break;
             default:
                 Crash();
@@ -32,6 +41,7 @@ public class CollisionHandeler : MonoBehaviour
          To Do: Add Sound Upon Crash
          To Do: Add effect on Crash
          */
+        rocketAudio.PlayOneShot(explosionSound);
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", 1f);//1 second delay to reloading Level
     }
@@ -48,6 +58,7 @@ public class CollisionHandeler : MonoBehaviour
          To Do: Add Sound Upon Completing Level
          To Do: Add effect on Completing Level
          */
+        rocketAudio.PlayOneShot(successSound);
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", 1f);//1 second delay to loading next Level
     }
@@ -56,10 +67,10 @@ public class CollisionHandeler : MonoBehaviour
     void LoadNextLevel()
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
+        int nextLevel = currentLevel + 1;
         if (currentLevel != SceneManager.sceneCount)//Check if current level is the final level
         {
-            print("Loading Next Level");
-            SceneManager.LoadScene(currentLevel ++);//Load next level
+            SceneManager.LoadScene(nextLevel);//Load next level
         }   
         else
         {
