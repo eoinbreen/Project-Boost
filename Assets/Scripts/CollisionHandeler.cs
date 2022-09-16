@@ -11,26 +11,30 @@ public class CollisionHandeler : MonoBehaviour
 
     AudioSource rocketAudio;
     int currentLevel;
-
-     void Start()
+    bool isTransitioning = false; //Check if player is transitioning between levels
+    void Start()
     {
         rocketAudio = GetComponent<AudioSource>();
     }
     void OnCollisionEnter(Collision collision)
     {
-        
-        switch (collision.gameObject.tag)
+        if(isTransitioning == false)
         {
-            case "Start":
-                print("On Starting Position");
-                break;
-            case "Finish":
-                LevelComplete();
-                break;
-            default:
-                Crash();
-                break;
+            switch (collision.gameObject.tag)
+            {
+                case "Start":
+                    print("On Starting Position");
+                    break;
+                case "Finish":
+                    LevelComplete();
+                    break;
+                default:
+                    Crash();
+                    break;
+            }
         }
+        
+        
     }
 
     
@@ -38,10 +42,12 @@ public class CollisionHandeler : MonoBehaviour
     void Crash()
     {
         /*
-         To Do: Add Sound Upon Crash
+         
          To Do: Add effect on Crash
          */
+        rocketAudio.Stop();
         rocketAudio.PlayOneShot(explosionSound);
+        isTransitioning = true;
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", 1f);//1 second delay to reloading Level
     }
@@ -55,10 +61,12 @@ public class CollisionHandeler : MonoBehaviour
     void LevelComplete()
     {
         /*
-         To Do: Add Sound Upon Completing Level
+         
          To Do: Add effect on Completing Level
          */
+        rocketAudio.Stop();
         rocketAudio.PlayOneShot(successSound);
+        isTransitioning = true;
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", 1f);//1 second delay to loading next Level
     }
