@@ -15,13 +15,33 @@ public class CollisionHandeler : MonoBehaviour
     AudioSource rocketAudio;
     int currentLevel;
     bool isTransitioning = false; //Check if player is transitioning between levels
+    bool collisionsOn = true;
     void Start()
     {
         rocketAudio = GetComponent<AudioSource>();
     }
+
+    private void Update()
+    {
+        DebugInputs();
+    }
+
+    private void DebugInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.C))// Toggle Collisions with C Key
+        {
+            collisionsOn = !collisionsOn;
+            print("Collisions are " + collisionsOn);
+        }
+        if (Input.GetKeyDown(KeyCode.L))//Load Next Level with L Key
+        {
+            LoadNextLevel();
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        if(isTransitioning == false)
+        if(isTransitioning == false && collisionsOn)
         {
             switch (collision.gameObject.tag)
             {
