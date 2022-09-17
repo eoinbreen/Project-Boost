@@ -9,6 +9,9 @@ public class CollisionHandeler : MonoBehaviour
     [SerializeField] AudioClip explosionSound;
     [SerializeField] AudioClip successSound;
 
+    [SerializeField] ParticleSystem explosionParticles;
+    [SerializeField] ParticleSystem successParticles;
+
     AudioSource rocketAudio;
     int currentLevel;
     bool isTransitioning = false; //Check if player is transitioning between levels
@@ -41,36 +44,30 @@ public class CollisionHandeler : MonoBehaviour
     //Rocket Crashes
     void Crash()
     {
-        /*
-         
-         To Do: Add effect on Crash
-         */
+        explosionParticles.Play();
         rocketAudio.Stop();
         rocketAudio.PlayOneShot(explosionSound);
         isTransitioning = true;
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", 1f);//1 second delay to reloading Level
     }
-    //reloads current Level
-    void ReloadLevel()
-    {
-        currentLevel = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentLevel);
-    }
 
     void LevelComplete()
     {
-        /*
-         
-         To Do: Add effect on Completing Level
-         */
+        successParticles.Play();
         rocketAudio.Stop();
         rocketAudio.PlayOneShot(successSound);
         isTransitioning = true;
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", 1f);//1 second delay to loading next Level
     }
-
+    
+    //reloads current Level
+    void ReloadLevel()
+    {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentLevel);
+    }
 
     void LoadNextLevel()
     {
