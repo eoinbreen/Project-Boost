@@ -8,6 +8,10 @@ public class Movement : MonoBehaviour
     [SerializeField] float rotationSpeed = 200f;
     [SerializeField] AudioClip engineSound;
 
+    [SerializeField] ParticleSystem lEngineParticles;
+    [SerializeField] ParticleSystem rEngineParticles;
+    
+
     Rigidbody rocketRigidBody;
     AudioSource rocketAudio;
    
@@ -35,10 +39,21 @@ public class Movement : MonoBehaviour
             {
                 rocketAudio.PlayOneShot(engineSound);
             }
+
+            if (!rEngineParticles.isPlaying)//Check if audio is already playing so it does not loop on top of one another
+            {
+                rEngineParticles.Play();
+            }
+            if (!lEngineParticles.isPlaying)//Check if audio is already playing so it does not loop on top of one another
+            {
+                lEngineParticles.Play();
+            }
         }
         else
         {
-            rocketAudio.Pause();
+            lEngineParticles.Stop();
+            rEngineParticles.Stop();
+            rocketAudio.Stop();
         }
     }
 
