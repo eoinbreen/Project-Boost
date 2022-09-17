@@ -34,27 +34,37 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);
-            if (!rocketAudio.isPlaying)//Check if audio is already playing so it does not loop on top of one another
-            {
-                rocketAudio.PlayOneShot(engineSound);
-            }
-
-            if (!rEngineParticles.isPlaying)//Check if audio is already playing so it does not loop on top of one another
-            {
-                rEngineParticles.Play();
-            }
-            if (!lEngineParticles.isPlaying)//Check if audio is already playing so it does not loop on top of one another
-            {
-                lEngineParticles.Play();
-            }
+            StartThrust();
         }
         else
         {
-            lEngineParticles.Stop();
-            rEngineParticles.Stop();
-            rocketAudio.Stop();
+            StopThrust();
         }
+    } 
+
+    void StartThrust()
+    {
+        rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);
+        if (!rocketAudio.isPlaying)//Check if audio is already playing so it does not loop on top of one another
+        {
+            rocketAudio.PlayOneShot(engineSound);
+        }
+
+        if (!rEngineParticles.isPlaying)
+        {
+            rEngineParticles.Play();
+        }
+        if (!lEngineParticles.isPlaying)
+        {
+            lEngineParticles.Play();
+        }
+    }
+
+    void StopThrust()
+    {
+        lEngineParticles.Stop();
+        rEngineParticles.Stop();
+        rocketAudio.Stop();
     }
 
     //Processes input to rotate the rocket
