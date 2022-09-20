@@ -40,6 +40,11 @@ public class Movement : MonoBehaviour
         {
             StopThrust();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))//end the game
+        {
+            print("Escape Button Was Pressed");
+            Application.Quit();
+        }
     } 
 
     void StartThrust()

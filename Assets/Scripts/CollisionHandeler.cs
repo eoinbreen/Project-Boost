@@ -37,6 +37,7 @@ public class CollisionHandeler : MonoBehaviour
         {
             LoadNextLevel();
         }
+
     }
 
     void OnCollisionEnter(Collision collision)
