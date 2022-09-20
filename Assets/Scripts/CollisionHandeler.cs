@@ -93,7 +93,7 @@ public class CollisionHandeler : MonoBehaviour
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
         int nextLevel = currentLevel + 1;
-        if (currentLevel != SceneManager.sceneCount)//Check if current level is the final level
+        if (nextLevel != SceneManager.sceneCountInBuildSettings)//Check if this is the final level
         {
             SceneManager.LoadScene(nextLevel);//Load next level
         }   
