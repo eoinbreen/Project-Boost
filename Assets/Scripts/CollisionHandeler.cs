@@ -31,7 +31,6 @@ public class CollisionHandeler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))// Toggle Collisions with C Key
         {
             collisionsOn = !collisionsOn;
-            print("Collisions are " + collisionsOn);
         }
         if (Input.GetKeyDown(KeyCode.L))//Load Next Level with L Key
         {
@@ -47,7 +46,6 @@ public class CollisionHandeler : MonoBehaviour
             switch (collision.gameObject.tag)
             {
                 case "Start":
-                    print("On Starting Position");
                     break;
                 case "Finish":
                     LevelComplete();
@@ -62,7 +60,7 @@ public class CollisionHandeler : MonoBehaviour
     }
 
     
-    //Rocket Crashes
+    //Start Crash Sequence
     void Crash()
     {
         explosionParticles.Play();
@@ -70,7 +68,7 @@ public class CollisionHandeler : MonoBehaviour
         rocketAudio.PlayOneShot(explosionSound);
         isTransitioning = true;
         GetComponent<Movement>().enabled = false;
-        Invoke("ReloadLevel", 1f);//1 second delay to reloading Level
+        Invoke("ReloadLevel", 1f);//1 second delay on reloading Level to play audio and particles
     }
 
     void LevelComplete()
@@ -80,10 +78,9 @@ public class CollisionHandeler : MonoBehaviour
         rocketAudio.PlayOneShot(successSound);
         isTransitioning = true;
         GetComponent<Movement>().enabled = false;
-        Invoke("LoadNextLevel", 1f);//1 second delay to loading next Level
+        Invoke("LoadNextLevel", 1f);
     }
     
-    //reloads current Level
     void ReloadLevel()
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
@@ -96,12 +93,11 @@ public class CollisionHandeler : MonoBehaviour
         int nextLevel = currentLevel + 1;
         if (nextLevel != SceneManager.sceneCountInBuildSettings)//Check if this is the final level
         {
-            SceneManager.LoadScene(nextLevel);//Load next level
+            SceneManager.LoadScene(nextLevel);
         }   
         else
         {
-            print("You Won!! Restarting Game");
-            SceneManager.LoadScene(0);//Load First Level
+            SceneManager.LoadScene(0);
         }
     }
 }

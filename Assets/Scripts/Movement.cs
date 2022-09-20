@@ -42,19 +42,19 @@ public class Movement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))//end the game
         {
-            print("Escape Button Was Pressed");
             Application.Quit();
         }
     } 
 
+    //start the thrusting sequence
     void StartThrust()
     {
-        rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);
+        rocketRigidBody.AddRelativeForce(Vector3.up * rocketThrust * Time.deltaTime);//move the rocket in the way it is pointing
         if (!rocketAudio.isPlaying)//Check if audio is already playing so it does not loop on top of one another
         {
             rocketAudio.PlayOneShot(engineSound);
         }
-
+        //play engine particles effect
         if (!rEngineParticles.isPlaying)
         {
             rEngineParticles.Play();
@@ -64,7 +64,8 @@ public class Movement : MonoBehaviour
             lEngineParticles.Play();
         }
     }
-
+    
+    //Stop the thrusting sequence
     void StopThrust()
     {
         lEngineParticles.Stop();
@@ -80,7 +81,7 @@ public class Movement : MonoBehaviour
             ApplyRotation(rotationSpeed);
         }
 
-        else if (Input.GetKey(KeyCode.RightArrow))//dont rotate both ways at a time
+        else if (Input.GetKey(KeyCode.RightArrow))//dont rotate both ways at the same time
         {
             ApplyRotation(-rotationSpeed);
         }
@@ -89,8 +90,8 @@ public class Movement : MonoBehaviour
     //applies rotation to the rocket
     void ApplyRotation(float rotationThisFrame)
     {
-        rocketRigidBody.freezeRotation = true; //Freeze rotation so we can manually rotate
+        rocketRigidBody.freezeRotation = true; //Freeze rigidbody rotation so we can manually rotate while colliding with other objects
         transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);
-        rocketRigidBody.freezeRotation = false; //Unfreeze rotation
+        rocketRigidBody.freezeRotation = false; //Unfreeze rigidbody rotation
     }
 }

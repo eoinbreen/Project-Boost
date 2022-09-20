@@ -13,7 +13,6 @@ public class Oscillator : MonoBehaviour
     void Start()
     {
         startingPosition = transform.position;
-        print(startingPosition);
     }
 
     // Update is called once per frame
